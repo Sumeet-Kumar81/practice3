@@ -216,6 +216,18 @@ input:checked + .slider:before {
   transform: translateY(0);
 }
 
+.btn-start:disabled {
+  background-color: #bdbdbd;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-start:disabled:hover {
+  background-color: #bdbdbd;
+  transform: none;
+  box-shadow: none;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
   .card {
