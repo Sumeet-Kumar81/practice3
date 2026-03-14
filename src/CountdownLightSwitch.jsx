@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CountdownLightSwitch.css';
 
 export default function CountdownLightSwitch() {
@@ -7,6 +7,27 @@ export default function CountdownLightSwitch() {
   const [isRunning, setIsRunning] = useState(false);
 
   const progressPercentage = ((30 - timeLeft) / 30) * 100;
+
+  // Timer effect
+  useEffect(() => {
+    let interval;
+    
+    if (isRunning && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(prev => {
+          if (prev <= 1) {
+            setIsRunning(false);
+            // Auto toggle theme when timer ends
+            setIsDarkTheme(prev => !prev);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+
+    return () => clearInterval(interval);
+  }, [isRunning, timeLeft]);
 
   const handleThemeToggle = (e) => {
     setIsDarkTheme(e.target.checked);
@@ -20,6 +41,8 @@ export default function CountdownLightSwitch() {
     setIsRunning(false);
     setTimeLeft(30);
   };
+
+  const isTimeUp = timeLeft === 0 && !isRunning;
 
   return (
     <div className={`container ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
@@ -54,7 +77,11 @@ export default function CountdownLightSwitch() {
               ></div>
             </div>
             <p className="timer-status">
-              {isRunning ? 'Timer running...' : 'Ready to start'}
+              {isTimeUp 
+                ? "⏰ Time's Up!" 
+                : isRunning 
+                ? 'Timer running...' 
+                : 'Ready to start'}
             </p>
           </div>
 
