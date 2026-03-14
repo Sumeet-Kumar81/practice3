@@ -109,66 +109,6 @@ input:checked + .slider:before {
   gap: 30px;
 }
 
-/* Timer Section */
-.timer-section {
-  text-align: center;
-}
-
-.timer-display {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.timer-value {
-  font-size: 72px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.timer-unit {
-  font-size: 16px;
-  color: #999;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.dark-theme .timer-unit {
-  color: #aaa;
-}
-
-/* Progress Bar */
-.progress-container {
-  height: 8px;
-  background-color: #e0e0e0;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 15px;
-}
-
-.dark-theme .progress-container {
-  background-color: #444;
-}
-
-.progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #4caf50, #8bc34a);
-  transition: width 0.3s ease;
-}
-
-/* Timer Status */
-.timer-status {
-  margin: 0;
-  font-size: 14px;
-  color: #999;
-}
-
-.dark-theme .timer-status {
-  color: #aaa;
-}
-
 /* Button Group */
 .button-group {
   display: flex;
@@ -187,46 +127,153 @@ input:checked + .slider:before {
   flex: 1;
 }
 
-.btn-start {
-  background-color: #4caf50;
-  color: white;
-}
-
-.btn-start:hover {
-  background-color: #45a049;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
-}
-
-.btn-start:active {
-  transform: translateY(0);
-}
-
-.btn-reset {
-  background-color: #ff9800;
-  color: white;
-}
-
-.btn-reset:hover {
-  background-color: #e68900;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
-}
-
-.btn-reset:active {
-  transform: translateY(0);
-}
-
-.btn-start:disabled {
+.btn:disabled {
   background-color: #bdbdbd;
   cursor: not-allowed;
   opacity: 0.6;
 }
 
-.btn-start:disabled:hover {
+.btn:disabled:hover {
   background-color: #bdbdbd;
   transform: none;
   box-shadow: none;
+}
+
+/* Traffic Light Container */
+.traffic-light-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+/* Traffic Light Box */
+.traffic-light {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 30px;
+  background: #333;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.dark-theme .traffic-light {
+  background: #111;
+}
+
+/* Light Circle */
+.light {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transition: all 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0.3;
+  cursor: pointer;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.light:hover {
+  opacity: 0.5;
+}
+
+.red-light {
+  background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc0000);
+}
+
+.red-light.active {
+  opacity: 1;
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.8), inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.yellow-light {
+  background: radial-gradient(circle at 30% 30%, #ffeb3b, #ffa500);
+}
+
+.yellow-light.active {
+  opacity: 1;
+  box-shadow: 0 0 30px rgba(255, 165, 0, 0.8), inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.green-light {
+  background: radial-gradient(circle at 30% 30%, #4caf50, #008000);
+}
+
+.green-light.active {
+  opacity: 1;
+  box-shadow: 0 0 30px rgba(0, 255, 0, 0.8), inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Light Status */
+.light-status {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  min-height: 30px;
+}
+
+.dark-theme .light-status {
+  color: #fff;
+}
+
+/* Light Controls */
+.light-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.btn-red {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+.btn-red:hover:not(:disabled) {
+  background-color: #ff5252;
+  box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+}
+
+.btn-yellow {
+  background-color: #ffeb3b;
+  color: #333;
+}
+
+.btn-yellow:hover:not(:disabled) {
+  background-color: #fdd835;
+  box-shadow: 0 4px 8px rgba(255, 235, 59, 0.3);
+}
+
+.btn-green {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-green:hover:not(:disabled) {
+  background-color: #45a049;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.btn-auto {
+  background-color: #2196f3;
+  color: white;
+  flex: 1;
+  max-width: 300px;
+}
+
+.btn-auto:hover {
+  background-color: #1976d2;
+  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+}
+
+.btn-auto.active {
+  background-color: #d32f2f;
+  box-shadow: 0 0 15px rgba(211, 47, 47, 0.5);
 }
 
 /* Responsive Design */
@@ -239,15 +286,27 @@ input:checked + .slider:before {
     font-size: 24px;
   }
 
-  .timer-value {
-    font-size: 56px;
+  .light {
+    width: 70px;
+    height: 70px;
+  }
+
+  .light-controls {
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    width: 100%;
   }
 
   .button-group {
     flex-direction: column;
   }
 
-  .btn {
-    width: 100%;
+  .btn-auto {
+    max-width: 100%;
   }
 }
+

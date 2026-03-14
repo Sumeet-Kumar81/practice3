@@ -1,55 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import './CountdownLightSwitch.css';
 
-export default function CountdownLightSwitch() {
+export default function TrafficLight() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(30);
-  const [isRunning, setIsRunning] = useState(false);
+  const [currentLight, setCurrentLight] = useState('red');
+  const [isAutomatic, setIsAutomatic] = useState(false);
 
-  const progressPercentage = ((30 - timeLeft) / 30) * 100;
-
-  // Timer effect
+  // Traffic light effect - cycles through red, yellow, green
   useEffect(() => {
     let interval;
     
-    if (isRunning && timeLeft > 0) {
+    if (isAutomatic) {
       interval = setInterval(() => {
-        setTimeLeft(prev => {
-          if (prev <= 1) {
-            setIsRunning(false);
-            // Auto toggle theme when timer ends
-            setIsDarkTheme(prev => !prev);
-            return 0;
-          }
-          return prev - 1;
+        setCurrentLight(prev => {
+          if (prev === 'red') return 'yellow';
+          if (prev === 'yellow') return 'green';
+          return 'red';
         });
-      }, 1000);
+      }, 2000);
     }
 
     return () => clearInterval(interval);
-  }, [isRunning, timeLeft]);
+  }, [isAutomatic]);
 
   const handleThemeToggle = (e) => {
     setIsDarkTheme(e.target.checked);
   };
 
-  const handleStart = () => {
-    setIsRunning(true);
+  const handleAutomatic = () => {
+    setIsAutomatic(!isAutomatic);
   };
 
-  const handleReset = () => {
-    setIsRunning(false);
-    setTimeLeft(30);
+  const handleManualLight = (light) => {
+    setIsAutomatic(false);
+    setCurrentLight(light);
   };
-
-  const isTimeUp = timeLeft === 0 && !isRunning;
 
   return (
     <div className={`container ${isDarkTheme ? 'dark-theme' : 'light-theme'}`}>
       <div className="card">
         {/* Header */}
         <div className="header">
-          <h1 className="title">Countdown Timer</h1>
+          <h1 className="title">Traffic Light</h1>
           <div className="theme-toggle">
             <label className="switch">
               <input 
@@ -64,41 +56,58 @@ export default function CountdownLightSwitch() {
 
         {/* Main Content */}
         <div className="content">
-          {/* Timer Display */}
-          <div className="timer-section">
-            <div className="timer-display">
-              <span className="timer-value">{timeLeft}</span>
-              <span className="timer-unit">seconds</span>
-            </div>
-            <div className="progress-container">
+          {/* Traffic Light Display */}
+          <div className="traffic-light-container">
+            <div className="traffic-light">
               <div 
-                className="progress-bar" 
-                style={{ width: `${progressPercentage}%` }}
+                className={`light red-light ${currentLight === 'red' ? 'active' : ''}`}
+              ></div>
+              <div 
+                className={`light yellow-light ${currentLight === 'yellow' ? 'active' : ''}`}
+              ></div>
+              <div 
+                className={`light green-light ${currentLight === 'green' ? 'active' : ''}`}
               ></div>
             </div>
-            <p className="timer-status">
-              {isTimeUp 
-                ? "⏰ Time's Up!" 
-                : isRunning 
-                ? 'Timer running...' 
-                : 'Ready to start'}
+            <p className="light-status">
+              {currentLight === 'red' && '🛑 STOP'}
+              {currentLight === 'yellow' && '🟡 CAUTION'}
+              {currentLight === 'green' && '✅ GO'}
             </p>
           </div>
 
           {/* Control Buttons */}
-          <div className="button-group">
+          <div className="light-controls">
             <button 
-              className="btn btn-start"
-              onClick={handleStart}
-              disabled={isRunning}
+              className="btn btn-red"
+              onClick={() => handleManualLight('red')}
+              disabled={isAutomatic}
             >
-              Start Timer
+              Red
             </button>
             <button 
-              className="btn btn-reset"
-              onClick={handleReset}
+              className="btn btn-yellow"
+              onClick={() => handleManualLight('yellow')}
+              disabled={isAutomatic}
             >
-              Reset Timer
+              Yellow
+            </button>
+            <button 
+              className="btn btn-green"
+              onClick={() => handleManualLight('green')}
+              disabled={isAutomatic}
+            >
+              Green
+            </button>
+          </div>
+
+          {/* Automatic Mode Button */}
+          <div className="button-group">
+            <button 
+              className={`btn btn-auto ${isAutomatic ? 'active' : ''}`}
+              onClick={handleAutomatic}
+            >
+              {isAutomatic ? '⏸ Stop Auto' : '▶ Auto Mode'}
             </button>
           </div>
         </div>
